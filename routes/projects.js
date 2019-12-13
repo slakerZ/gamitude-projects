@@ -65,7 +65,7 @@ router.post('/', function (req, res) {
         valid = 'false'
     }
     if (valid === 'true') {
-        let response = projectTemplate_;
+        const response = projectTemplate_;
         response["userId"] = usernameId;
         response["name"] = name;
         //TODO save data
@@ -73,7 +73,7 @@ router.post('/', function (req, res) {
     }
     else {
         console.log("no argument");
-        let response = {
+        const response = {
             "Status": 1
         }
         res.status(200).send(response);
@@ -91,7 +91,7 @@ router.put('/', function (req, res) {
         valid = 'false'
     }
     if (valid === 'true') {
-        let response = projectTemplate_
+        const response = projectTemplate_
         response["id"] = projectId;
         response["name"] = req.body.name;
         response["primaryMethod"] = req.body.primaryMethod;
@@ -102,7 +102,7 @@ router.put('/', function (req, res) {
     }
     else {
         console.log("no argument");
-        let response = {
+        const response = {
             "Status": 1
         }
         res.status(200).send(response);
