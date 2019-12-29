@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const connectDb = require("../db/mongoConnector.js.js");
+const Project = require("../models/project.js");
+const ProjectUsage = require("../models/projectUsage.js");
 
 const projectTemplate_ = {
     id: 14,
@@ -18,8 +21,13 @@ const projectUsageTemplate_ = {
     timeSpend: 25,
     "status": 0
 }
-//STARTING PATH {url}/projects
+/* GET Connection. */
+connectDb().then(
+    () => {console.log("MongoDb connected");},
+    err => console.log("connecting to mongo error: ",err)
+    );
 
+//STARTING PATH {baseUrl}/projects
 /* GET Projects {id}||{Username}||{UsernameId}. */
 router.get('/', function (req, res) {
 
@@ -110,5 +118,32 @@ router.put('/', function (req, res) {
     console.log("Put Projects finish");
 });
 
+/* SAVE PROJECT TO MONGO //TEST//. */
+router.get('/mongo/project', async function (req, res) {
 
+    console.log("Save Project mongo test start");
+    const project = new Project({
+        userId: 1,
+        name: "mongo test",
+        primaryMethod: "POMODORO",
+        projectStatus: "ACTIVE",
+        statsTemplate: 1
+    })
+    // project.projectUsages.push("5e08b4c7e502cb1fd8963222"); adding foreign key
+    await project.save().then(() => console.log("Project created"));
+    res.status(200).send(project);
+    console.log("Save Project mongo test finish");
+});
+/* SAVE PROJECTUSAGE TO MONGO //TEST//. */
+router.get('/mongo/projectUsage', async function (req, res) {
+
+    console.log("Save Projectusage mongo test start");
+    const projectUsage = new ProjectUsage({
+        method: 14,
+        timeSpend: 25
+    })
+    await projectUsage.save().then(() => console.log("ProjectUsage created"));
+    res.status(200).send(projectUsage);
+    console.log("Save Projectusage mongo test finish");
+});
 module.exports = router;
