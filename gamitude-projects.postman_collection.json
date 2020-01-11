@@ -1,0 +1,152 @@
+{
+	"info": {
+		"_postman_id": "62a336d6-7dfb-423a-ad8c-c97323de9c8a",
+		"name": "gamitude-projects",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "add project",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"userId\" : \"someId2\",\r\n        \"name\" : \"Python\",\r\n        \"primaryMethod\" : \"90/30\",\r\n        \"projectStatus\" : \"DONE\",\r\n        \"dominantStat\" : \"STRENGTH\",\r\n        \"stats\" : [\"STRENGTH\",\"INTELLIGENCE\"]\r\n    }"
+				},
+				"url": {
+					"raw": "{{url}}/projects",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get projects id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/projects/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"projects",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get projects userId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/projects/user/someId2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"projects",
+						"user",
+						"someId2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "edit project",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"userId\" : \"someId\",\r\n        \"name\" : \"React\",\r\n        \"primaryMethod\" : \"POMODORO\",\r\n        \"projectStatus\" : \"ACTIVE\",\r\n        \"dominantStat\" : \"STRENGTH\",\r\n        \"stats\" : [\"STRENGTH\",\"INTELLIGENCE\"]\r\n    }"
+				},
+				"url": {
+					"raw": "{{url}}/projects/5e179584a23c785e6b8b2fa5",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"projects",
+						"5e179584a23c785e6b8b2fa5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete project",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/projects/5e177a47286eff4934a05eaf",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"projects",
+						"5e177a47286eff4934a05eaf"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "5db792db-8646-4604-9999-d2fa4eb3444f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "62885926-13dd-4991-b36b-475bb86a7ee7",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "937c1d32-884f-4491-9d5e-555ca3c089b2",
+			"key": "url",
+			"value": "localhost:3030",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
