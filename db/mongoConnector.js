@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
-const connection = "mongodb://localhost:27017/gamitude";
+
 
 const connectDb = () => {
-  return mongoose.connect(connection, { useNewUrlParser: true })
+  return mongoose.connect(process.env.DATABASE_URL || require("./connectionString.json")["mongoConnStringDev"], {
+     useNewUrlParser: true })
 };
 
 module.exports = connectDb;
