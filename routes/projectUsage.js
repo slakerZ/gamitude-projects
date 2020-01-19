@@ -12,8 +12,8 @@ const workflowUrl = (process.env.WORKFLOW_URL || endpoints['workflow']);
 //STARTING PATH {baseUrl}/projectUsage
 /* GET ProjectUsage /{id} */
 router.get('/:id', async (req, res) => {
-
     console.log("Get ProjectUsage by id start");
+
     const projectUsageId = req.params.id;
     try {
         if (mongoose.Types.ObjectId.isValid(projectUsageId)) {
@@ -28,43 +28,49 @@ router.get('/:id', async (req, res) => {
         }
         else {
             res.status(400).send({
+                error: "projectUsageId not valid!",
+                status: 1
+            });
+        }
+    } catch (err) {
+        res.status(500).send({
+            status: 1
+        });
+    }
+});
+
+/* GET ProjectUsage /project/{ProjectId}. */
+router.get('/project/:projectId', async (req, res) => {
+    console.log("Get ProjectUsage by id start");
+
+    const projectId = req.params.projectId;
+    try {
+        if (mongoose.Types.ObjectId.isValid(projectId)) {
+            const projectUsage = await ProjectUsage.find({ projectId: { $eq: projectId } });
+            projectUsage ? res.status(200).send({
+                projectUsages: projectUsage,
+                status: 0
+            }) : res.status(404).send({
+                error: "Project not found!",
+                status: 1
+            });
+        } else {
+            res.status(400).send({
                 error: "projectId not valid!",
                 status: 1
             });
         }
     } catch (err) {
-        console.log(err);
-        
         res.status(500).send({
             status: 1
         });
     }
 });
-/* GET ProjectUsage /project/{ProjectId}. */
-router.get('/project/:projectId', async (req, res) => {
-
-    console.log("Get ProjectUsage by id start");
-    const projectId = req.params.projectId;
-    try {
-        const projectUsage = await ProjectUsage.find({ projectId: { $eq: projectId } });
-        projectUsage ? res.status(200).send({
-            projectUsages: projectUsage,
-            status: 0
-        }) : res.status(404).send({
-            error: "Project not found!",
-            status: 1
-        });
-    } catch (err) {
-        res.status(500).send({
-            status: 1
-        });
-    }
-});
-
 
 /* POST ProjectUsage json{{projectUsageData}}. */
 router.post('/', async (req, res) => {
     console.log("Post ProjectUsage start");
+
     const projectUsageReq = new ProjectUsage(req.body);
     const projectId = projectUsageReq.projectId;
 
@@ -73,10 +79,14 @@ router.post('/', async (req, res) => {
     }
 
     try {
-        await projectUsageReq.save().then((projectUsage) => {            
-            Project.findByIdAndUpdate(projectId
-                ,{$push:{projectUsages:projectUsage._id}}
-                ,{ new: true, useFindAndModify: false, runValidators: true
+        if (mongoose.Types.ObjectId.isValid(projectId)) {
+            await projectUsageReq.save().then((projectUsage) => {
+                Project.findByIdAndUpdate(projectId, {
+                    $push: { projectUsages: projectUsage._id }
+                    , $inc: { totalTimeSpend: projectUsage.timeSpend }
+                }, {
+                    new: true, useFindAndModify: false, runValidators: true
+                    , fields: { dominantStat: 1, stats: 1, userId: 1 }
                 }).then((project) => {
                     const requestData = {
                         project: project,
@@ -93,13 +103,18 @@ router.post('/', async (req, res) => {
                             };
                         }))
                 })
+            });
+        } else {
+            res.status(400).send({
+                error: "projectId not valid!",
+                status: 1
+            });
+        }
+    } catch (err) {
+        res.status(500).send({
+            status: 1
         });
-    }catch (err) {
-    console.log(err);
-    res.status(500).send({
-        status: 1
-    });
-}
+    }
 });
 
 /* DELETE ProjectUsage /{id} */
@@ -129,6 +144,7 @@ router.delete('/:id', async (req, res) => {
         });
     }
 });
+
 /* DELETE ProjectUsage /{projectId} */
 router.delete('/project/:projectId', async (req, res) => {
     console.log("Delete ProjectUsage start");

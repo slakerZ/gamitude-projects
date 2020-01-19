@@ -17,18 +17,28 @@ const projectSchema = new mongoose.Schema({
     type: String,
     enum: ENUM.STATUS
   },
-  dominantStat:{
+  dominantStat: {
     type: String,
     enum: ENUM.STATS
   },
-  stats:{
-    type:[String],
-    enum:ENUM.STATS
+  stats: {
+    type: [String],
+    enum: ENUM.STATS
   },
   projectUsages: [
     { type: mongoose.Schema.Types.ObjectId, ref: 'ProjectUsage' }
-  ]
+  ],
+  totalTimeSpend:
+  {
+    type: Number,
+    default: 0
+  },
+  dateAdded: {
+    type: Date,
+    default: Date.now
+  }
 });
+
 const Project = mongoose.model("Project", projectSchema);
 module.exports = Project;
 
