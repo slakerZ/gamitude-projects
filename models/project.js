@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Schema.Types.ObjectId;
-const statsEnums=["STRENGTH","INTELLIGENCE","CREATIVITY","FLUENCY"];
+const ENUM = require('./enums')
+
 const projectSchema = new mongoose.Schema({
   id: ObjectId,
   userId: {
@@ -10,19 +11,19 @@ const projectSchema = new mongoose.Schema({
   name: { type: String },
   primaryMethod: {
     type: String,
-    enum: ["POMODORO", "90/30"]
+    enum: ENUM.METHOD
   },
   projectStatus: {
     type: String,
-    enum: ["ACTIVE", "ONHOLD", "DONE"]
+    enum: ENUM.STATUS
   },
   dominantStat:{
     type: String,
-    enum: statsEnums
+    enum: ENUM.STATS
   },
   stats:{
     type:[String],
-    enum:statsEnums
+    enum:ENUM.STATS
   },
   projectUsages: [
     { type: mongoose.Schema.Types.ObjectId, ref: 'ProjectUsage' }
