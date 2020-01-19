@@ -5,7 +5,9 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const projectsRouter = require('./routes/projects');
+const projectUsageRouter = require('./routes/projectUsage');
 const app = express();
+const connectDb = require("./db/mongoConnector.js");
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -18,6 +20,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/projects', projectsRouter);
+app.use('/projectUsage', projectUsageRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -34,5 +37,11 @@ app.use(function (err, req, res) {
   res.status(err.status || 500);
   res.send('error');
 });
+
+/* GET Connection. */
+connectDb().then(
+  () => { console.log("MongoDb connected"); },
+  err => console.log("connecting to mongo error: ", err)
+);
 
 module.exports = app;
