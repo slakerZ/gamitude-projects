@@ -6,8 +6,8 @@ const mongoose = require("mongoose");
 //STARTING PATH {baseUrl}/projects
 /* GET Projects /{id} */
 router.get('/:id', async (req, res) => {
-
     console.log("Get Projects by id start");
+
     const projectId = req.params.id;
     try {
         if (mongoose.Types.ObjectId.isValid(projectId)) {
@@ -19,8 +19,7 @@ router.get('/:id', async (req, res) => {
                 error: "Project not found!",
                 status: 1
             });
-        }
-        else {
+        } else {
             res.status(400).send({
                 error: "projectId not valid!",
                 status: 1
@@ -32,20 +31,28 @@ router.get('/:id', async (req, res) => {
         });
     }
 });
+
 /* GET Projects /user/{UserId}. */
 router.get('/user/:userId', async (req, res) => {
-
     console.log("Get Projects by id start");
+
     const userId = req.params.userId;
     try {
-        const project = await Project.find({ userId: { $eq: userId } });
-        project ? res.status(200).send({
-            projects: project,
-            status: 0
-        }) : res.status(404).send({
-            error: "Project not found!",
-            status: 1
-        });
+        if (mongoose.Types.ObjectId.isValid(userId)) {
+            const project = await Project.find({ userId: { $eq: userId } });
+            project ? res.status(200).send({
+                projects: project,
+                status: 0
+            }) : res.status(404).send({
+                error: "Project not found!",
+                status: 1
+            });
+        } else {
+            res.status(400).send({
+                error: "userId not valid!",
+                status: 1
+            });
+        }
     } catch (err) {
         res.status(500).send({
             status: 1
@@ -53,10 +60,10 @@ router.get('/user/:userId', async (req, res) => {
     }
 });
 
-
 /* POST Projects json{{projectData}}. */
 router.post('/', async (req, res) => {
     console.log("Post Project start");
+
     const project = new Project(req.body);
     try {
         await project.save().then(() => res.status(201).send({
@@ -79,7 +86,7 @@ router.put('/:id', async (req, res) => {
     try {
         if (mongoose.Types.ObjectId.isValid(projectId)) {
             const projectUpdated = await Project.findByIdAndUpdate(projectId, project,
-                 { new: true, useFindAndModify: false, runValidators: true });
+                { new: true, useFindAndModify: false, runValidators: true });
             projectUpdated ? res.status(200).send(project) : res.status(404).send({
                 error: "Project not found!",
                 status: 1
@@ -96,6 +103,7 @@ router.put('/:id', async (req, res) => {
         });
     }
 });
+
 /* DELETE Project /{id} */
 router.delete('/:id', async (req, res) => {
     console.log("Delete Projects start");
