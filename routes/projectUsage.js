@@ -101,7 +101,11 @@ router.post('/', async (req, res) => {
                                     status: 0
                                 });
                             };
-                        }))
+                        })).catch((err)=>{
+                            res.status(504).send({
+                                status:1
+                            });
+                        });
                 })
             });
         } else {
