@@ -6,8 +6,8 @@ const mongoose = require("mongoose");
 const endpoints = require("./endpoints.json");
 const axios = require('axios');
 
-const ranksUrl = (process.env.RANKS_URL || endpoints['ranks']);
-const workflowUrl = (process.env.WORKFLOW_URL || endpoints['workflow']);
+const ranksUrl = 'https://gamitude-ranks.herokuapp.com';
+const workflowUrl = 'https://gamitude-workflow.herokuapp.com';
 
 //STARTING PATH {baseUrl}/projectUsage
 /* GET ProjectUsage /{id} */
