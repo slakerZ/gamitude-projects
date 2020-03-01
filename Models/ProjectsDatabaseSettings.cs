@@ -6,6 +6,12 @@ namespace ProjectsApi.Models
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }
     }
+    //     public class ProjectsDatabaseSettingsEnv : IProjectsDatabaseSettings
+    // {
+    //     public string ProjectsCollectionName { get; set; }
+    //     public string ConnectionString { get; set; }
+    //     public string DatabaseName { get; set; }
+    // }
 
     public interface IProjectsDatabaseSettings
     {

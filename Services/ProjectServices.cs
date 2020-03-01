@@ -9,16 +9,18 @@ namespace ProjectsApi.Services
     {
         private readonly IMongoCollection<Project> _Projects;
 
-        public ProjectService(IProjectsDatabaseSettings settings)
+
+        public ProjectService(IProjectsDatabaseSettings settings, UserTokenService userTokenService)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
             _Projects = database.GetCollection<Project>(settings.ProjectsCollectionName);
+
         }
 
-        public List<Project> Get() =>
-            _Projects.Find(Project => true).ToList();
+        public List<Project> GetProjectsByUserId(string userId) =>
+            _Projects.Find<Project>(Project => Project.UserId == userId).ToList();
 
         public Project Get(string id) =>
             _Projects.Find<Project>(Project => Project.Id == id).FirstOrDefault();

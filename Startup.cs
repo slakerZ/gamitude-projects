@@ -29,16 +29,23 @@ namespace gamitude_projects
         public void ConfigureServices(IServiceCollection services)
         {
             Console.WriteLine("starting");
+
+            // var value = System.Environment.GetEnvironmentVariable("");
+            // Console.WriteLine(value);
+
+
             services.Configure<ProjectsDatabaseSettings>(
                 Configuration.GetSection(nameof(ProjectsDatabaseSettings)));
-
             services.AddSingleton<IProjectsDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<ProjectsDatabaseSettings>>().Value);
+
+            //MAYBE SCOPED??
             services.AddSingleton<ProjectService>();
+            services.AddSingleton<UserTokenService>();
+
             services.AddControllers();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -46,11 +53,13 @@ namespace gamitude_projects
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthorization();
+
+            // app.UseAuthentication();
+            // app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
