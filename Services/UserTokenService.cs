@@ -1,8 +1,19 @@
 using ProjectsApi.Models;
+using ProjectsApi.Helpers;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Options;
+
+
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+
+using Microsoft.IdentityModel.Tokens;
+
+using Microsoft.AspNetCore.Identity;
+using System.Text;
 
 namespace ProjectsApi.Services
 {
@@ -29,9 +40,9 @@ namespace ProjectsApi.Services
                 tokenHandler.ValidateToken(token, new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = key
-                    // ValidateIssuer = true,
-                    // ValidateAudience = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
                     // ValidIssuer = myIssuer,
                     // ValidAudience = myAudience,
                 }, out SecurityToken validatedToken);
@@ -50,17 +61,12 @@ namespace ProjectsApi.Services
             {
                 return null;
             }
-
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
 
-            var stringClaimValue = securityToken.Claims.First(claim => claim.Type == ClaimTypes.Name).Value;
+            var stringClaimValue = securityToken.Claims.First().Value;
             return stringClaimValue;
         }
-
-        // //Retturns User id by token
-        // public UserToken GetByToken(string token) =>
-        //     _UsersToken.Find<UserToken>(UserToken => UserToken.Token == token).FirstOrDefault();
 
     }
 }
