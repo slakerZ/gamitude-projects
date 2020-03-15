@@ -12,7 +12,7 @@ using System.Security.Claims;
 
 namespace ProjectsApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/pro/[controller]")]
     [Authorize]
     [ApiController]
     public class ProjectsController : ControllerBase
