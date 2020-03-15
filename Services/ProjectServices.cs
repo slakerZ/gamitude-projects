@@ -11,13 +11,12 @@ namespace ProjectsApi.Services
         private readonly IMongoCollection<Project> _Projects;
 
 
-        public ProjectService(IProjectsDatabaseSettings settings, UserTokenService userTokenService)
+        public ProjectService(IProjectsDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
             _Projects = database.GetCollection<Project>(settings.ProjectsCollectionName);
-
         }
 
         public List<Project> GetProjectsByUserId(string userId) =>

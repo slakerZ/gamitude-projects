@@ -20,15 +20,12 @@ namespace ProjectsApi.Controllers
         //TODO stats verification if Dominant in stats
 
         private readonly ProjectService _projectService;
-        private readonly UserTokenService _userTokenService;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ProjectsController(ProjectService projectService, UserTokenService userTokenService, IHttpContextAccessor httpContextAccessor)
+        public ProjectsController(ProjectService projectService, IHttpContextAccessor httpContextAccessor)
         {
             _projectService = projectService;
-            _userTokenService = userTokenService;
             _httpContextAccessor = httpContextAccessor;
-
         }
 
         [HttpGet]
@@ -45,7 +42,6 @@ namespace ProjectsApi.Controllers
             {
                 return NotFound();
             }
-
 
         }
 
@@ -87,7 +83,6 @@ namespace ProjectsApi.Controllers
                 return NotFound("User Failure");
 
             }
-
 
         }
 

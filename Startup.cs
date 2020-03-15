@@ -71,7 +71,6 @@ namespace gamitude_projects
             //DATABASE SERVICES
             //MAYBE SCOPED??
             services.AddSingleton<ProjectService>();
-            services.AddSingleton<UserTokenService>();
 
             services.AddControllers().AddJsonOptions(opt =>
                 {
