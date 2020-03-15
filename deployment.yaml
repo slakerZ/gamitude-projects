@@ -18,7 +18,7 @@ spec:
       - name: pro
         image: PRO_IMAGE
         env:
-          - name: AuthorizationDatabaseSettings__ConnectionString
+          - name: ProjectsDatabaseSettings__ConnectionString
             valueFrom:
               secretKeyRef:
                 name: database-string
