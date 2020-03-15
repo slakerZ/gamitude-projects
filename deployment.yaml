@@ -1,0 +1,60 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: pro
+  labels:
+    app: pro
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pro
+  template:
+    metadata:
+      labels:
+        app: pro
+    spec:
+      containers:
+      - name: pro
+        image: PRO_IMAGE
+        env:
+          - name: ProjectsDatabaseSettings__ConnectionString
+            valueFrom:
+              secretKeyRef:
+                name: database-string
+                key: connection_string
+          - name: AppSettings__Secret
+            valueFrom:
+              secretKeyRef:
+                name: token-string
+                key: token_string
+        ports:
+          - name: pro-http
+            containerPort: 80
+        livenessProbe:      # Used by deployment controller
+          httpGet:
+            path: /api/pro/Version
+            port: 80
+            scheme: HTTP
+          periodSeconds: 5
+          timeoutSeconds: 60
+          successThreshold: 1
+          failureThreshold: 5
+          initialDelaySeconds: 50
+        readinessProbe:     # Used by Ingress/GCLB
+          httpGet:
+            path: /api/pro/Version
+            port: 80
+            scheme: HTTP
+          periodSeconds: 5
+          timeoutSeconds: 60
+          successThreshold: 1
+          failureThreshold: 5
+          initialDelaySeconds: 50
+        resources:
+          limits:
+            memory: 200Mi
+            cpu: 100m
+          requests:
+            memory: 100Mi
+            cpu: 50m

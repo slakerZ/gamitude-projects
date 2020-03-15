@@ -1,4 +1,4 @@
 ## gamitude-projects
 docker-compose up from db folder to run db
-npm install => npm start
-default listening on port 3000
+dotnet run => starts Projects service
+default listening on port 5000/5001
