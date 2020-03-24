@@ -41,7 +41,6 @@ namespace ProjectsApi.Controllers
             else
             {
                 return NotFound("User Failure");
-
             }
 
         }
@@ -78,6 +77,7 @@ namespace ProjectsApi.Controllers
                 _projectService.Create(project);
 
                 return CreatedAtRoute("Create Project", new { id = project.Id.ToString() }, project);
+
             }
             else
             {
