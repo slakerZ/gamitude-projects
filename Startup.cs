@@ -35,11 +35,11 @@ namespace gamitude_projects
         {
             Console.WriteLine("starting");
             //ADDITIONAL SETTINGS
-            // var value = System.Environment.GetEnvironmentVariable("");
-            // Console.WriteLine(value);
             var appSettingsSection = Configuration.GetSection("AppSettings");
+
             services.Configure<AppSettings>(appSettingsSection);
             services.AddHttpContextAccessor();
+          
             //AUTHENTICATION
             // configure jwt authentication
             var appSettings = appSettingsSection.Get<AppSettings>();
@@ -69,8 +69,9 @@ namespace gamitude_projects
                 sp.GetRequiredService<IOptions<ProjectsDatabaseSettings>>().Value);
 
             //DATABASE SERVICES
-            //MAYBE SCOPED??
-            services.AddSingleton<ProjectService>();
+
+            services.AddScoped<ProjectService>();
+
 
             services.AddControllers().AddJsonOptions(opt =>
                 {

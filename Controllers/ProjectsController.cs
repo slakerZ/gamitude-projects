@@ -40,7 +40,7 @@ namespace ProjectsApi.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound("User Failure");
             }
 
         }
@@ -76,7 +76,8 @@ namespace ProjectsApi.Controllers
                 project.DateAdded = DateTime.UtcNow;
                 _projectService.Create(project);
 
-                return CreatedAtRoute("GetProject", new { id = project.Id.ToString() }, project);
+                return CreatedAtRoute("Create Project", new { id = project.Id.ToString() }, project);
+
             }
             else
             {
