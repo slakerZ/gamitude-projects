@@ -86,6 +86,12 @@ namespace gamitude_projects
                 app.UseDeveloperExceptionPage();
             }
 
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+            
             // app.UseHttpsRedirection();
 
             app.UseAuthentication();
