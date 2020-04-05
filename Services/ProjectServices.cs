@@ -31,8 +31,8 @@ namespace ProjectsApi.Services
             return Project;
         }
 
-        public void Update(string id, Project ProjectIn) =>
-            _Projects.ReplaceOne(Project => Project.Id == id, ProjectIn);
+        public void Update(string id, Project newProject) =>
+            _Projects.ReplaceOne(Project => Project.Id == id, newProject);
 
         public void Remove(Project ProjectIn) =>
             _Projects.DeleteOne(Project => Project.Id == ProjectIn.Id);

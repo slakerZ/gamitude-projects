@@ -69,14 +69,13 @@ namespace ProjectsApi.Controllers
         {
             string userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name).ToString();
 
-
             if (null != userId)
             {
                 project.UserId = userId;
                 project.DateAdded = DateTime.UtcNow;
-                _projectService.Create(project);
+                Project newProject = _projectService.Create(project);
 
-                return CreatedAtRoute("Create Project", new { id = project.Id.ToString() }, project);
+                return Created("Create", newProject);
 
             }
             else
@@ -100,9 +99,9 @@ namespace ProjectsApi.Controllers
                 {
                     return NotFound("Project not found");
                 }
-                projectIn = updateProject(project, projectIn);
+                project = updateProject(project, projectIn);
 
-                _projectService.Update(id, projectIn);
+                _projectService.Update(id, project);
                 return Ok();
             }
             else
@@ -141,24 +140,23 @@ namespace ProjectsApi.Controllers
         }
         private Project updateProject(Project project, Project projectIn)
         {
-            projectIn.Id=project.Id;
-            if (null == projectIn.Name)
+            if (null != projectIn.Name)
             {
-                projectIn.Name = project.Name;
+                project.Name = projectIn.Name;
             }
-            if (null == projectIn.PrimaryMethod.ToString())
+            if (null != projectIn.PrimaryMethod.ToString())
             {
-                projectIn.PrimaryMethod = project.PrimaryMethod;
+                project.PrimaryMethod = projectIn.PrimaryMethod;
             }
-            if (null == projectIn.ProjectStatus.ToString())
+            if (null != projectIn.ProjectStatus.ToString())
             {
-                projectIn.ProjectStatus = project.ProjectStatus;
+                project.ProjectStatus = projectIn.ProjectStatus;
             }
-            if (null == projectIn.Stats)
+            if (null != projectIn.Stats)
             {
-                projectIn.Stats = project.Stats;
+               project.Stats = projectIn.Stats;
             }
-            return projectIn;
+            return project;
         }
     }
 }
