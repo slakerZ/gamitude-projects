@@ -102,7 +102,7 @@ namespace ProjectsApi.Controllers
                 project = updateProject(project, projectIn);
 
                 _projectService.Update(id, project);
-                return Ok();
+                return Ok(project);
             }
             else
             {
