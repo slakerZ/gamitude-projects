@@ -88,7 +88,7 @@ namespace ProjectsApi.Controllers
 
 
         [HttpPut("{id:length(24)}")]
-        public IActionResult Update(string id, Project projectIn)
+        public ActionResult<Project> Update(string id, Project projectIn)
         {
             string userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name).ToString();
 
