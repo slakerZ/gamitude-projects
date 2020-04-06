@@ -156,6 +156,10 @@ namespace ProjectsApi.Controllers
             {
                project.Stats = projectIn.Stats;
             }
+            if (null != projectIn.DominantStat)
+            {
+               project.DominantStat = projectIn.DominantStat;
+            }
             return project;
         }
     }
