@@ -18,13 +18,13 @@ namespace ProjectsApi.Models
         public string Name { get; set; }
 
         [BsonElement("primaryMethod")]
-        public METHOD PrimaryMethod { get; set; }
+        public METHOD? PrimaryMethod { get; set; }
 
         [BsonElement("projectStatus")]
-        public STATUS ProjectStatus { get; set; }
+        public STATUS? ProjectStatus { get; set; }
 
         [BsonElement("dominantStat")]
-        public STATS DominantStat { get; set; }
+        public STATS? DominantStat { get; set; }
 
         [BsonElement("stats")]
         public STATS[] Stats { get; set; }
