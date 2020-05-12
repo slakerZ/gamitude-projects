@@ -31,6 +31,7 @@ spec:
         ports:
           - name: pro-http
             containerPort: 80
+            hostPort: 7778
         livenessProbe:      # Used by deployment controller
           httpGet:
             path: /api/pro/Version
